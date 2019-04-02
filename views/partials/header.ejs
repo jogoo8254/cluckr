@@ -14,9 +14,9 @@
              <a class="navbar-brand" href="#">
                <img src="/images/chicken_logo.jpg" width="100" height="100" alt="">
              </a>
-            <form class="cluck-form" action="/cluck" method="POST">
-            <input type="submit" value="Cluck!">
-          </form>            
+             <a class="cluck-form" href="/clucks">
+			 <input type="submit" value="Cluck!">
+             </a>
             <% if (username) { %>
             <span>
           </span>
@@ -24,10 +24,9 @@
             <input type="submit" value="Sign Out">
           </form>
         <% } else { %>      
-          <form class="sign-in-form" action="/sign_in" method="POST">
-            <input type="text" name="username" placeholder="Username">
-            <input type="submit" value="Sign In">
-          </form>
+             <a class="sign-in-form" href="/login">
+			 <input type="submit" value="Sign In">
+             </a>
         <% } %>
         </nav>
         </header>

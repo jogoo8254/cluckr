@@ -35,8 +35,9 @@ router.post('/sign_out',(req,res)=>{
 // NAME: cluck#new, METHOD: GET, PATH: /clucks/new
 router.get("/clucks",checkIfAuthenticated, (req, res) => {
   const id = req.params.id;
-  
+  const username = req.cookies.username;
   knex("cluck")
+    .where("username",username)
     .orderBy("created_at", "DESC")
     .then(clucks => {
       if (clucks) {
