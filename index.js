@@ -1,7 +1,10 @@
-const express = require('express');
-const logger = require('morgan');
-
-const cookieParser = require('cookie-parser');
+const express = require("express");
+const path = require("path");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
+const methodOverride = require("method-override");
+const rootRouter = require("./routes/root");
+const clucksRouter = require("./routes/clucks");
 
 const app = express();
 
@@ -9,31 +12,28 @@ app.set('view engine','ejs');
 
 app.use(express.urlencoded({extended: true}));
 
-app.use(express.static('public'));
 
-app.use(cookieParser());
+app.use(
+    methodOverride((req, res) => {
+      if (req.body && req.body._method) {
+        const method = req.body._method;
+        return method;
+      }
+    })
+  );
 
+  app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, "public")));
 app.use((req,res,next)=>{
     res.locals.username = req.cookies.username || '';
     next();
 })
 
-app.get('/',(req,res)=>{
-    res.render('home',{username: res.locals.username});
-});
+// roots ----------------------------
+app.use("/", rootRouter);
+app.use("/clucks", clucksRouter);
 
-app.get('/login',(req,res)=>{
-    res.render('login');
-});
-
-// equivalence of one day!
-const ONE_DAY = new Date(Date.now()+1*24*60*60*1000);
-
-app.post('/login',(req,res)=>{
-    const { username } = req.body;
-    res.cookie('username', username, {expires: ONE_DAY})
-    res.redirect('/');
-})
 
 const PORT = 4545;
 const HOSTNAME = 'localhost';
