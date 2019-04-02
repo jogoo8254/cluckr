@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const knex = require("../db/client");
+const moment = require('moment')
 
 router.get('/',(req,res)=>{
     res.render('home',{username: res.locals.username});
@@ -27,13 +28,23 @@ router.post('/sign_in', (req,res)=>{
 });
 router.post('/sign_out',(req,res)=>{
     res.clearCookie("username");
-    res.redirect("/");
+    res.redirect("/login");
 });
 
   
 // NAME: cluck#new, METHOD: GET, PATH: /clucks/new
 router.get("/clucks",checkIfAuthenticated, (req, res) => {
-    res.render("clucks/new");
+  const id = req.params.id;
+  
+  knex("cluck")
+    .orderBy("created_at", "DESC")
+    .then(clucks => {
+      if (clucks) {
+        res.render("clucks/new", { clucks, moment });
+      } else {
+        res.send(`Cannot find cluck with id=${id}`);
+      }
+    });
   });
   
   // NAME: cluck#create, METHOD: POST, PATH: /clucks
@@ -61,10 +72,10 @@ router.get("/clucks",checkIfAuthenticated, (req, res) => {
   
     knex("cluck")
       .where("id", id)
-      .orderBy("createdAt", "DESC")
-      .then(cluck => {
-        if (cluck) {
-          res.render("/clucks/show", { cluck: cluck });
+      .orderBy("created_at", "DESC")
+      .then(clucks => {
+        if (clucks) {
+          res.render("clucks/show", { clucks, moment });
         } else {
           res.send(`Cannot find cluck with id=${id}`);
         }

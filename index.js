@@ -3,7 +3,7 @@ const path = require("path");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const router = require("./routes/clucks");
-
+const moment = require('moment')
 const app = express();
 
 app.set('view engine','ejs');
@@ -22,7 +22,7 @@ app.use((req,res,next)=>{
 
 // roots ----------------------------
 app.use("/", router);
-app.use("/clucks", router);
+// app.use("/clucks", router);
 
 
 const PORT = 4545;

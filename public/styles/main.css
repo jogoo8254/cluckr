@@ -40,9 +40,11 @@ html {
     padding: 10px;
   }
   
-  /* .cluck-form {
-      margin-top: auto;
-  } */
+
+   
+   .cluck-form {
+      margin-left: auto;
+  } 
 
   .sign-in-form,
   .sign-out-form {

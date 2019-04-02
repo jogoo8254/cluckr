@@ -1,11 +1,13 @@
 <%- include("../partials/header") %>
 
-<h1><%= cluck.username %> <%= cluck.createdAt %></h1>
+<% for(let cluck of clucks){ %>
+<% let time = moment(cluck.created_at).fromNow()%>
+  <h2><%= cluck.username %> <%= time %></h2>
 
-<p><%= cluck.content %></p>
+  <p><%= cluck.content %></p>
+  
+<% } %>
 
-<p>
-  <small>Created at <%= cluck.createdAt %></small>
-</p>
+
 
 <%- include("../partials/footer") %>
