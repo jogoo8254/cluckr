@@ -2,26 +2,65 @@ const express = require("express");
 const router = express.Router();
 const knex = require("../db/client");
 
-router.get("/", (req, res) => {
-    knex("clucks")
+router.get('/',(req,res)=>{
+    res.render('home',{username: res.locals.username});
+});
+router.get('/clucks',(req,res)=>{
+    res.render('home');
+});
+
+router.get('/clucks/new',checkIfAuthenticated,(req,res)=>{
+    res.render('new_cluck');
+});
+router.get('/login',(req,res)=>{
+    res.render('login');
+});
+
+// equivalence of one day!
+const ONE_DAY = new Date(Date.now()+1*24*60*60*1000);
+
+router.post('/login',(req,res)=>{
+    const { username } = req.body;
+    res.cookie('username', username, {expires: ONE_DAY})
+    res.redirect('/');
+})
+
+router.post('/sign_in', (req,res)=>{
+    const username = req.body.username;
+    res.cookie("username", username, {maxAge: ONE_DAY});
+    res.redirect("/");
+});
+router.post('/sign_out',(req,res)=>{
+    res.clearCookie("username");
+    res.redirect("/");
+});
+
+
+
+
+
+
+
+router.get("/clucks", (req, res) => {
+    knex("cluck")
       .orderBy("createdAt", "DESC")
       .then(clucks => {
-        res.render("clucks/index", { clucks: clucks });
+        res.render("/clucks/index", { clucks: clucks });
       });
   });
 
 
   
 // NAME: cluck#new, METHOD: GET, PATH: /clucks/new
-router.get("/new", (req, res) => {
-    res.render("clucks/new");
+router.get("/clucks/new", (req, res) => {
+    res.render("/clucks/new");
   });
   
   // NAME: cluck#create, METHOD: POST, PATH: /clucks
-  router.post("/", (req, res) => {
+  router.post("/clucks", (req, res) => {
     const content = req.body.content;
     const image_url = req.body.image_url;
-    knex("clucks") // --- START SQL
+    knex("cluck") // --- START SQL
       .insert({
         username: req.cookies.username,
         image_url: image_url,
@@ -37,15 +76,14 @@ router.get("/new", (req, res) => {
   
   // NAME: cluck#show, METHOD: GET, PATH: /clucks/:id
   //            👇 a wildcard match
-  router.get("/:id", (req, res) => {
+  router.get("/clucks/:id", (req, res) => {
     const id = req.params.id;
   
-    knex("clucks")
-      .where("id", id)
-      .first()
+    knex("cluck")
+      .orderBy("createdAt", "DESC")
       .then(cluck => {
         if (cluck) {
-          res.render("clucks/show", { cluck: cluck });
+          res.render("/clucks/show", { cluck: cluck });
         } else {
           res.send(`Cannot find cluck with id=${id}`);
         }

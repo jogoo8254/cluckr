@@ -1,0 +1,15 @@
+<%- include("../partials/header") %>
+
+<h1>Articles</h1>
+
+<ul>
+  <% for (let article of articles) { %>
+    <li>
+      <a href="/articles/<%= article.id %>"><%= article.title %></a> <br>
+      <small>Seen <%= article.viewCount %> time(s)</small>
+    </li>
+  <% } %>
+</ul>
+
+
+<%- include("../partials/footer") %>

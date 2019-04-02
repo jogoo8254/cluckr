@@ -24,23 +24,6 @@ router.post('/login',(req,res)=>{
     res.redirect('/');
 })
 
-router.post('/clucks',(req,res)=>{
-    const content = req.body.content;
-    const image_url = req.body.image_url;
-    knex.insert({
-        username: req.cookies.username,
-        image_url: image_url,
-        content: content
-    })
-    .into('cluck')
-    .then((record)=>{
-        console.log(`record: ${record} created!`);
-        res.redirect('/');
-    }).catch((err) => {
-        res.send('<div>sorry something went wrong</div>')
-    })
-})
-
 router.post('/sign_in', (req,res)=>{
     const username = req.body.username;
     res.cookie("username", username, {maxAge: ONE_DAY});
