@@ -1,0 +1,34 @@
+<%- include("../partials/header") %>
+
+<form action="/clucks" method="POST">
+  <div>
+    <h2>Content</h2>
+    <textarea
+      name="content"
+      cols="50"
+      rows="10"
+      placeholder="Whatchoo cluckin' 'bout?"
+    ></textarea>
+  </div>
+  <div>
+    <h2>Image Url</h2>
+    <input type="text" name="image_url" placeholder="https://imgur.com/...">
+  </div>
+
+  <input type="submit" value="Cluck!">
+</form>
+<% for(let cluck of clucks){ %>
+<% let time = moment(cluck.created_at).fromNow()%>
+
+  <h2><%= cluck.username %> <%= time %></h2>
+  <% if(cluck.image_url){ %>
+    <img src="<%= cluck.image_url %>" height="200" width="200">
+ <% } %>
+
+  <p><%= cluck.content %></p>
+  
+<% } %>
+
+
+
+<%- include("../partials/footer") %>

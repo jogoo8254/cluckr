@@ -1,0 +1,63 @@
+html {
+    /* Create a CSS variable by prefixing a word with -- */
+    --border-radius: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  main {
+    padding: 10px;
+  }
+  
+  /* The * is a selector that gets ALL TAGS */
+  * {
+    font-family: inherit;
+  }
+  
+  input,
+  textarea {
+    font-size: inherit;
+    border-radius: var(--border-radius);
+    border: 1px solid grey;
+    /* Use the calc() CSS function to simple calculations with units. Different
+    units can be combined! */
+    padding: calc(1rem / 2);
+  }
+  
+  .welcome-img {
+    border-radius: var(--border-radius);
+  }
+  
+  .navbar {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar > * {
+    padding: 10px;
+  }
+  
+
+   
+   .cluck-form {
+      margin-left: auto;
+  } 
+
+  .sign-in-form,
+  .sign-out-form {
+    margin-left: auto;
+  }
+  
+  /* 
+  .navbar
+    a <-- .navbar a, .navbar > a
+    a <-- .navbar a, .navbar > a
+    a <-- .navbar a, .navbar > a
+    div
+      a <-- .navbar a
+      div
+        a <-- .navbar a
+  */

@@ -1,0 +1,17 @@
+<%- include("../partials/header") %>
+
+<% for(let cluck of clucks){ %>
+<% let time = moment(cluck.created_at).fromNow()%>
+
+  <h2><%= cluck.username %> <%= time %></h2>
+  <% if(cluck.image_url){ %>
+    <img src="<%= cluck.image_url %>" height="200" width="200">
+ <% } %>
+
+  <p><%= cluck.content %></p>
+  
+<% } %>
+
+
+
+<%- include("../partials/footer") %>
